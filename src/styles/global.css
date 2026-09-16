@@ -1,15 +1,62 @@
+@font-face {
+  font-family: "Space Grotesk";
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url("/fonts/space-grotesk-latin.woff2") format("woff2");
+}
+
 :root {
-  color-scheme: dark;
-  --background: #131516;
-  --text: #f0f1ed;
-  --body: #c5c6c2;
-  --muted: #858987;
-  --rule: #343737;
-  --focus: #adc5df;
-  --signal: #e8b44a;
+  color-scheme: light dark;
+  --background: #151815;
+  --text: #edf0e6;
+  --body: #c0c6b4;
+  --muted: #89917f;
+  --rule: #2c322a;
+  --focus: #c2d8b0;
+  --signal: #9fbf8e;
+  --on-signal: #151815;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --tracking-display: -0.03em;
+  --tracking-lead: -0.025em;
+  --tracking-heading: -0.02em;
+  --tracking-body: -0.012em;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-synthesis: none;
-  text-rendering: optimizeLegibility;
+}
+
+/* Explicit override wins over everything. Keep in sync with the
+   prefers-color-scheme block below. */
+:root[data-theme="light"] {
+  color-scheme: light;
+  --background: #ecefe6;
+  --text: #1b2019;
+  --body: #41493e;
+  --muted: #626a58;
+  --rule: #d2d7c6;
+  --focus: #2e6b34;
+  --signal: #4f7d43;
+  --on-signal: #ffffff;
+}
+
+@media (prefers-color-scheme: light) {
+  /* No explicit override: follow the OS. An explicit dark pin keeps dark. */
+  :root:not([data-theme="dark"]) {
+    color-scheme: light;
+    --background: #ecefe6;
+    --text: #1b2019;
+    --body: #41493e;
+    --muted: #626a58;
+    --rule: #d2d7c6;
+    --focus: #2e6b34;
+    --signal: #4f7d43;
+    --on-signal: #ffffff;
+  }
+}
+
+::selection {
+  background: var(--signal);
+  color: var(--on-signal);
 }
 
 * {
@@ -35,10 +82,13 @@ a {
   text-decoration-color: color-mix(in srgb, currentColor 42%, transparent);
   text-decoration-thickness: 1px;
   text-underline-offset: 0.22em;
-  transition: color 160ms cubic-bezier(0.23, 1, 0.32, 1);
+  transition:
+    color 160ms var(--ease-out),
+    text-decoration-color 160ms var(--ease-out);
 }
 
-a:focus-visible {
+a:focus-visible,
+.theme-toggle:focus-visible {
   border-radius: 0.15rem;
   outline: 2px solid var(--focus);
   outline-offset: 0.25rem;
@@ -49,7 +99,8 @@ a:active {
 }
 
 @media (hover: hover) and (pointer: fine) {
-  a:hover {
+  a:hover,
+  .hero-nav .theme-toggle:hover {
     color: var(--text);
   }
 }
@@ -103,26 +154,21 @@ h1 {
   max-width: 12ch;
   margin: 0 0 clamp(2.5rem, 6vw, 4rem);
   color: var(--text);
+  font-family: "Space Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-size: clamp(3rem, 9vw, 4.5rem);
-  font-weight: 580;
+  font-weight: 500;
   line-height: 0.98;
-  letter-spacing: -0.055em;
-}
-
-#page-title {
-  margin: 0 0 clamp(2.5rem, 6vw, 4rem);
+  letter-spacing: var(--tracking-display);
+  text-rendering: optimizeLegibility;
 }
 
 h2 {
   margin: 0 0 1rem;
   color: var(--text);
   font-size: 1.25rem;
-  font-weight: 580;
-  letter-spacing: -0.02em;
-}
-
-.hero-heading {
-  width: fit-content;
+  font-weight: 600;
+  letter-spacing: var(--tracking-heading);
+  text-rendering: optimizeLegibility;
 }
 
 .hero-nav {
@@ -131,20 +177,62 @@ h2 {
   margin-bottom: 0.5rem;
 }
 
+.hero-nav a {
+  transition:
+    color 160ms var(--ease-out),
+    text-decoration-color 160ms var(--ease-out),
+    transform 160ms var(--ease-out);
+}
+
+.hero-nav a:active {
+  transform: scale(0.97);
+}
+
+/* Theme toggle: visually a fifth nav item, revealed by script (dead without JS). */
+.theme-toggle[hidden] {
+  display: none;
+}
+
+.hero-nav .theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  transition:
+    color 160ms var(--ease-out),
+    transform 160ms var(--ease-out);
+}
+
+.hero-nav .theme-toggle:active {
+  color: var(--focus);
+  transform: scale(0.97);
+}
+
+.hero-nav .theme-toggle svg {
+  display: block;
+  width: 1.15em;
+  height: 1.15em;
+}
+
 .narrative {
   max-width: 44ch;
 }
 
 .narrative p {
   margin: 0 0 1.25rem;
-  letter-spacing: -0.012em;
+  letter-spacing: var(--tracking-body);
 }
 
 .narrative .lead {
   color: var(--text);
   font-size: clamp(1.2rem, 3vw, 1.4rem);
   line-height: 1.45;
-  letter-spacing: -0.025em;
+  letter-spacing: var(--tracking-lead);
   text-wrap: balance;
 }
 

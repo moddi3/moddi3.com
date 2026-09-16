@@ -8,7 +8,7 @@ interface Props {
 
 const siteUrl = 'https://moddi3.com';
 const email = 'oss@moddi3.com';
-const { title = 'Vlad Ivanov — Software Engineer', description = 'Vlad Ivanov is a software engineer focused on frontend, server rendering, developer experience and tooling.' } = Astro.props;
+const { title = 'Vlad Ivanov', description = 'Software engineer focused on frontend, server rendering, developer experience and tooling.' } = Astro.props;
 const canonical = new URL(Astro.url.pathname, siteUrl).href;
 ---
 
@@ -17,13 +17,35 @@ const canonical = new URL(Astro.url.pathname, siteUrl).href;
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<meta name="color-scheme" content="dark" />
+		<meta name="color-scheme" content="light dark" />
+		<script is:inline>
+			// Apply a stored theme override before first paint (no flash).
+			// Absence of data-theme means "follow the OS" (see global.css).
+			try {
+				var storedTheme = localStorage.getItem('theme');
+				if (storedTheme === 'light' || storedTheme === 'dark') {
+					document.documentElement.setAttribute('data-theme', storedTheme);
+				}
+			} catch (e) {}
+		</script>
 		<meta name="description" content={description} />
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content={canonical} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:image" content={new URL('/og-image.png', siteUrl).href} />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={new URL('/og-image.png', siteUrl).href} />
+		<meta name="theme-color" content="#151815" media="(prefers-color-scheme: dark)" />
+		<meta name="theme-color" content="#ecefe6" media="(prefers-color-scheme: light)" />
 		<title>{title}</title>
 		<link rel="canonical" href={canonical} />
+		<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+		<link rel="preload" href="/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin />
 		<link rel="sitemap" href="/sitemap-index.xml" />
 		<meta name="generator" content={Astro.generator} />
-		<style></style>
 	</head>
 	<body>
 		<a class="skip-link" href="#main-content">Skip to content</a>

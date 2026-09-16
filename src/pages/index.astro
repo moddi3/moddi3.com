@@ -10,6 +10,7 @@ import Layout from "../layouts/Layout.astro";
         <a href="https://github.com/moddi3" target="_blank">GitHub</a>
         <a href="https://twitter.com/moddi3io" target="_blank">Twitter</a>
         <a href="https://www.linkedin.com/in/moddi3" target="_blank">LinkedIn</a>
+        <button type="button" class="theme-toggle" id="theme-toggle" hidden aria-label="Switch to dark theme"></button>
       </nav>
 
       <h1 id="page-title">Vlad Ivanov</h1>
@@ -36,4 +37,57 @@ import Layout from "../layouts/Layout.astro";
       <dd>Remote software engineering roles in European time zones.</dd>
     </dl>
   </section>
+  <script is:inline>
+    // Two-state toggle over a three-state model (system/light/dark).
+    // The button always offers the opposite of what is currently resolved.
+    // Pressing it stores an explicit override — unless the target matches
+    // the OS, in which case the override is removed and the page follows
+    // the system again. Evaluated only here, at interaction time: OS
+    // changes never clear a stored pin on their own.
+    (function () {
+      var root = document.documentElement;
+      var button = document.getElementById('theme-toggle');
+      if (!button) return;
+
+      var MOON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+      var SUN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>';
+
+      function osScheme() {
+        return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      }
+
+      function resolved() {
+        var override = root.getAttribute('data-theme');
+        return override === 'light' || override === 'dark' ? override : osScheme();
+      }
+
+      function paint() {
+        var next = resolved() === 'light' ? 'dark' : 'light';
+        button.innerHTML = next === 'dark' ? MOON : SUN;
+        button.setAttribute('aria-label', 'Switch to ' + next + ' theme');
+        button.removeAttribute('hidden');
+      }
+
+      button.addEventListener('click', function () {
+        var target = resolved() === 'light' ? 'dark' : 'light';
+        try {
+          if (target === osScheme()) {
+            localStorage.removeItem('theme');
+            root.removeAttribute('data-theme');
+          } else {
+            localStorage.setItem('theme', target);
+            root.setAttribute('data-theme', target);
+          }
+        } catch (e) {
+          root.setAttribute('data-theme', target);
+        }
+        paint();
+      });
+
+      // Follow OS flips while no override is pinned (repaint icon only).
+      window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', paint);
+
+      paint();
+    })();
+  </script>
 </Layout>
