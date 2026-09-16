@@ -2,7 +2,7 @@
 	"$schema": "./node_modules/wrangler/config-schema.json",
 	"compatibility_date": "2026-09-11",
 	"compatibility_flags": ["global_fetch_strictly_public"],
-	"name": "moddi3.com",
+	"name": "moddi3-com",
 	"main": "@astrojs/cloudflare/entrypoints/server",
 	"assets": {
 		"directory": "./dist",
