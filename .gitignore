@@ -22,3 +22,12 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+.agents
+
+# Cloudflare
+.mf
+.wrangler
+.dev.vars*
+worker-configuration.d.ts
+
