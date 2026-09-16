@@ -8,7 +8,7 @@ interface Props {
 
 const siteUrl = 'https://moddi3.com';
 const email = 'oss@moddi3.com';
-const { title = 'Vlad Ivanov', description = 'Software engineer focused on frontend, server rendering, developer experience and tooling.' } = Astro.props;
+const { title = 'Vlad Ivanov' } = Astro.props;
 const canonical = new URL(Astro.url.pathname, siteUrl).href;
 ---
 
@@ -28,15 +28,12 @@ const canonical = new URL(Astro.url.pathname, siteUrl).href;
 				}
 			} catch (e) {}
 		</script>
-		<meta name="description" content={description} />
 		<meta property="og:type" content="website" />
 		<meta property="og:url" content={canonical} />
 		<meta property="og:title" content={title} />
-		<meta property="og:description" content={description} />
 		<meta property="og:image" content={new URL('/og-image.png', siteUrl).href} />
 		<meta name="twitter:card" content="summary_large_image" />
 		<meta name="twitter:title" content={title} />
-		<meta name="twitter:description" content={description} />
 		<meta name="twitter:image" content={new URL('/og-image.png', siteUrl).href} />
 		<meta name="theme-color" content="#151815" media="(prefers-color-scheme: dark)" />
 		<meta name="theme-color" content="#ecefe6" media="(prefers-color-scheme: light)" />
