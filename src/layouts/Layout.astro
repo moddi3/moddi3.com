@@ -8,7 +8,7 @@ interface Props {
 
 const siteUrl = 'https://moddi3.com';
 const email = 'oss@moddi3.com';
-const { title = 'Vlad Ivanov' } = Astro.props;
+const { title = 'Vlad Ivanov', description = 'Vlad Ivanov — software engineer based in Chernihiv, Ukraine, building web products since 2018.' } = Astro.props;
 const canonical = new URL(Astro.url.pathname, siteUrl).href;
 ---
 
@@ -18,6 +18,7 @@ const canonical = new URL(Astro.url.pathname, siteUrl).href;
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="color-scheme" content="light dark" />
+		<meta name="description" content={description} />
 		<script is:inline>
 			// Apply a stored theme override before first paint (no flash).
 			// Absence of data-theme means "follow the OS" (see global.css).
@@ -30,7 +31,7 @@ const canonical = new URL(Astro.url.pathname, siteUrl).href;
 		</script>
 		<meta property="og:type" content="website" />
 		<meta property="og:url" content={canonical} />
-		<meta property="og:title" content={title} />
+		<meta property="og:site_name" content="Vlad Ivanov" />
 		<meta property="og:image" content={new URL('/og-image.png', siteUrl).href} />
 		<meta name="twitter:card" content="summary_large_image" />
 		<meta name="twitter:title" content={title} />

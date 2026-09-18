@@ -37,17 +37,16 @@
   font-synthesis: none;
   /* Full-palette blend on theme switch. One transition on :root animates
      every consumer at once — no per-element color transitions to chase it.
-     350ms linear: slow wash at constant velocity, through the muddy
-     midpoint instead of dwelling in it. */
+     250ms ease-out: reads as a decision, not a dissolve. */
   transition:
-    --background 350ms linear,
-    --text 350ms linear,
-    --body 350ms linear,
-    --muted 350ms linear,
-    --rule 350ms linear,
-    --focus 350ms linear,
-    --signal 350ms linear,
-    --on-signal 350ms linear;
+    --background 250ms var(--ease-out),
+    --text 250ms var(--ease-out),
+    --body 250ms var(--ease-out),
+    --muted 250ms var(--ease-out),
+    --rule 250ms var(--ease-out),
+    --focus 250ms var(--ease-out),
+    --signal 250ms var(--ease-out),
+    --on-signal 250ms var(--ease-out);
 }
 
 /* Explicit override wins over everything. Keep in sync with the
@@ -101,7 +100,7 @@ html {
 }
 
 body {
-  min-width: 20rem;
+  min-width: min(20rem, 100%);
   min-height: 100vh;
   margin: 0;
   background: var(--background);
@@ -192,16 +191,6 @@ h1 {
   font-weight: 500;
   line-height: 0.98;
   letter-spacing: var(--tracking-display);
-  text-rendering: optimizeLegibility;
-}
-
-h2 {
-  margin: 0 0 1rem;
-  color: var(--text);
-  font-size: 1.25rem;
-  font-weight: 600;
-  letter-spacing: var(--tracking-heading);
-  text-rendering: optimizeLegibility;
 }
 
 .hero-nav {
@@ -229,8 +218,10 @@ h2 {
 .hero-nav .theme-toggle {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  min-width: 2.75rem;
   min-height: 2.75rem;
-  padding: 0;
+  padding: 0 0.625rem;
   border: 0;
   background: none;
   color: inherit;
@@ -263,6 +254,10 @@ h2 {
   letter-spacing: var(--tracking-body);
 }
 
+.narrative p:last-child {
+  margin-bottom: 0;
+}
+
 .narrative .lead {
   color: var(--text);
   font-size: clamp(1.2rem, 3vw, 1.4rem);
@@ -289,6 +284,12 @@ h2 {
 .facts dd {
   margin: 0;
   color: var(--body);
+}
+
+.role-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 footer {
@@ -319,14 +320,6 @@ footer {
   *::after {
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
-  }
-}
-
-@media (prefers-contrast: more) {
-  :root {
-    --body: #e2e3df;
-    --muted: #b7bbb7;
-    --rule: #747876;
   }
 }
 

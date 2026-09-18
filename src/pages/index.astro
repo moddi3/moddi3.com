@@ -3,14 +3,14 @@ import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout>
-  <section class="intro" aria-labelledby="page-title">
+  <div class="intro">
     <div class="hero-heading">
       <nav aria-label="Primary" class="hero-nav">
         <a href="/cv/Vlad_Ivanov_Resume.pdf" target="_blank">CV</a>
         <a href="https://github.com/moddi3" target="_blank">GitHub</a>
         <a href="https://twitter.com/moddi3io" target="_blank">Twitter</a>
         <a href="https://www.linkedin.com/in/moddi3" target="_blank">LinkedIn</a>
-        <button type="button" class="theme-toggle" id="theme-toggle" hidden aria-label="Switch to dark theme"></button>
+        <button type="button" class="theme-toggle" id="theme-toggle" hidden></button>
       </nav>
 
       <h1 id="page-title">Vlad Ivanov</h1>
@@ -26,7 +26,12 @@ import Layout from "../layouts/Layout.astro";
 
     <dl class="facts">
       <dt>Currently</dt>
-      <dd>Frontend Developer at SendPulse<br />Volunteer Software Engineer for a Ukrainian nonprofit</dd>
+      <dd>
+        <ul class="role-list">
+          <li>Frontend Developer at SendPulse</li>
+          <li>Volunteer Software Engineer for a Ukrainian nonprofit</li>
+        </ul>
+      </dd>
 
       <dt>Selected project</dt>
       <dd>
@@ -36,7 +41,7 @@ import Layout from "../layouts/Layout.astro";
       <dt>Available for</dt>
       <dd>Remote software engineering roles in European time zones.</dd>
     </dl>
-  </section>
+  </div>
   <script is:inline>
     // Two-state toggle over a three-state model (system/light/dark).
     // The button always offers the opposite of what is currently resolved.
